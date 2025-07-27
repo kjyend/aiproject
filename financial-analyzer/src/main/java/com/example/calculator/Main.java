@@ -16,6 +16,7 @@ public class Main {
             System.out.println("\n원하는 계산기를 선택하세요 (종료하려면 0 입력):");
             System.out.println("1. 기간별 차등금리 적금 계산기");
             System.out.println("2. 채권 실질 수익률 계산기");
+            System.out.println("3. 배당주 실현 수익률 계산기");
             System.out.print("선택: ");
 
             int choice = scanner.nextInt();
@@ -32,6 +33,9 @@ public class Main {
                     break;
                 case 2:
                     product = createBondFromUserInput(scanner);
+                    break;
+                case 3:
+                    product = createDividendStockFromUserInput(scanner);
                     break;
                 default:
                     System.out.println("잘못된 선택입니다. 다시 시도해주세요.");
@@ -97,5 +101,28 @@ public class Main {
         boolean applyTax = scanner.nextBoolean();
 
         return new Bond(faceValue, purchasePrice, couponRate, yearsToMaturity, couponFrequency, tradingFeeRate, applyTax);
+    }
+
+    private static FinancialProduct createDividendStockFromUserInput(Scanner scanner) {
+        System.out.println("\n--- 배당주 실현 수익률 계산기 ---");
+        System.out.print("주당 매수 가격 (원): ");
+        double purchasePrice = scanner.nextDouble();
+
+        System.out.print("주당 매도 가격 (원): ");
+        double sellingPrice = scanner.nextDouble();
+
+        System.out.print("보유 주식 수: ");
+        int shares = scanner.nextInt();
+
+        System.out.print("보유 기간 동안 받은 세전 총 배당금 (원): ");
+        double dividends = scanner.nextDouble();
+
+        System.out.print("편도 매매 수수료율 (%, 예: 0.015): ");
+        double tradingFee = scanner.nextDouble();
+
+        System.out.print("증권거래세율 (%, 예: 0.18): ");
+        double taxRate = scanner.nextDouble();
+
+        return new DividendStock(purchasePrice, sellingPrice, shares, dividends, tradingFee, taxRate);
     }
 }
